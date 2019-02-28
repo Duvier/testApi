@@ -9,6 +9,20 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VueEcho from 'vue-echo-laravel';
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js');
+
+const EchoInstance = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true
+});
+
+Vue.use(VueEcho, EchoInstance);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,6 +35,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('alert', require('./components/Alerts.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
